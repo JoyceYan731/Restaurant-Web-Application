@@ -39,12 +39,13 @@ public class YelpAPI {
 	
 	
 	public List<Item> search(double lat, double lon, String term) {
+	
 		if (term == null || term.isEmpty()) {
 			term = DEFAULT_TERM;
 		}
 
 		try {
-			term = URLEncoder.encode(term, "UTF-8"); // Rick Sun => Rick20%Sun
+			term = URLEncoder.encode(term, "UTF-8"); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,91 +95,7 @@ public class YelpAPI {
 				System.out.println(jsonObject);
 			}
 		}
-	
 
-	
-	
-	
-	
-	
-	
-	/**
-
-
-	public JSONArray search(double lat, double lon, String term) {
-
-		if (term == null || term.isEmpty()) {
-			term = DEFAULT_TERM;
-		}
-
-
-		//term 要encode一下 -- 处理空格情况
-		//因为空格在http中是一个关键字
-		//chrom 在解析的时候会自动把空格变成%20
-		try {
-			term = URLEncoder.encode(term, "UTF-8"); // Rick Sun => Rick20%Sun
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
-		String query = String.format("term=%s&latitude=%s&longitude=%s&limit=%s", term, lat, lon, SEARCH_LIMIT);
-		String url = HOST + ENDPOINT + "?" + query;
-
-
-
-		try {
-
-			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Authorization", TOKEN_TYPE + " " + API_KEY);
-
-			int responseCode = connection.getResponseCode();
-			System.out.println("Sending request to URL: " + url);
-			System.out.println("Response code: " + responseCode);
-
-			//说明为空的
-			if (responseCode != 200) {
-				return new JSONArray();
-			}
-
-			//我们给 yelp api 发送request 给的是一个 output stream
-			//从server得到的 收到的是inputstream 扔到bufferreader里面
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String inputLine = "";
-			StringBuilder response = new StringBuilder();
-
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-
-			JSONObject object = new JSONObject(response.toString());//整个是个object
-			if (!object.isNull("businesses")) {
-				return object.getJSONArray("businesses");
-			}
-
-		} catch (Exception e) {
-
-		}
-		return new JSONArray();
-
-	}
-
-	private void queryAPI(double lat, double lon) {
-		JSONArray items = search(lat, lon, null);
-		try {
-			for (int i = 0; i < items .length(); i++) {
-				JSONObject item = items.getJSONObject(i);
-				System.out.println(item.toString(2));//这个是缩进
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-	**/
 	
 	/**
 	 * Helper methods
